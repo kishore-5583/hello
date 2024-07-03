@@ -1,69 +1,67 @@
-// import logo from './logo.svg';
-// import './App.css';
-// import Navbar from './Component/navbar';
-// function App() {
-//   return (
-//    <>
-//    <Navbar/>
-   
-   
-//    </>
-//   );
-// }
-
-// export default App;
 import React, { useState } from 'react';
+import './App.css'; // Import the CSS file
 
-function App() {
-  const [tasks, setTasks] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+const App = () => {
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState(0);
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+  const handleClick = (val) => {
+    setInput(input + val);
   };
 
-  const addTask = () => {
-    if (inputValue.trim() !== '') {
-      setTasks([...tasks, inputValue.trim()]);
-      setInputValue('');
+  const handleResult = (e) => {
+    e.preventDefault(); // Prevents the default form submission behavior
+    try {
+      setResult(eval(input)); // Caution: eval can be dangerous
+    } catch (error) {
+      setResult('Error');
     }
   };
-
-  const removeTask = (index) => {
-    const newTasks = tasks.filter((task, i) => i !== index);
-    setTasks(newTasks);
-  };
-
-  const clearAll = () => {
-    setTasks([]);
-  };
-
+  const clearinput = ()=>{
+    setInput('');
+    setResult('0');
+  }
   return (
-    <div id="todoList">
-      <h1>Simple To-Do List</h1>
-      <input
-        type="text"
-        id="taskInput"
-        placeholder="Enter task..."
-        value={inputValue}
-        onChange={handleInputChange}
-      />
-      <button id="addTaskBtn" onClick={addTask}>
-        Add Task
-      </button>
-      <button id="Clear" onClick={clearAll}>
-        Clear All
-      </button>
-      <ul id="tasksList">
-        {tasks.map((task, index) => (
-          <li key={index}>
-            <span>{task}</span>
-            <button onClick={() => removeTask(index)}>Remove</button>
-          </li>
-        ))}
-      </ul>
+    <div>
+      <form onSubmit={handleResult}>
+        <center>
+          <h2 >Simple Calculater</h2>
+          <input type="text" name="input" value={input} onChange={(e) => setInput(e.target.value)} /> <br />
+          <br />
+          <div>
+            <button type="button" onClick={() => handleClick('1')}>1</button>
+            <button type="button" onClick={() => handleClick('2')}>2</button>
+            <button type="button" onClick={() => handleClick('3')}>3</button>
+            <button type="button" onClick={() => handleClick('+')}>+</button>
+          </div>
+          <br />
+          <div>
+            <button type="button" onClick={() => handleClick('4')}>4</button>
+            <button type="button" onClick={() => handleClick('5')}>5</button>
+            <button type="button" onClick={() => handleClick('6')}>6</button>
+            <button type="button" onClick={() => handleClick('-')}>-</button>
+          </div>
+          <br />
+          <div>
+            <button type="button" onClick={() => handleClick('7')}>7</button>
+            <button type="button" onClick={() => handleClick('8')}>8</button>
+            <button type="button" onClick={() => handleClick('9')}>9</button>
+            <button type="button" onClick={() => handleClick('*')}>*</button>
+          </div>
+          <br />
+          <div>
+            <button type="button" onClick={() => handleClick('0')}>0</button>
+            <button type="button" onClick={() => handleClick('.')}>.</button>
+            <button type="button" onClick={clearinput}>C</button>
+            <button type="button" onClick ={() => handleClick('/')}>/</button>
+          </div>
+          <br />
+          <button type="submit">Result</button>
+          <p>Result is {result}</p>
+        </center>
+      </form>
     </div>
   );
-}
+};
 
 export default App;
